@@ -1,4 +1,4 @@
-/* Copyright 2021 Jay Greco
+/* Copyright 2022 Chris Tanaka <https://github.com/christanaka>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,17 +16,27 @@
 
 #pragma once
 
-#define MATCH_OLED_RGB_BRIGHTNESS
+// Old configuration
 #define OLED_BRIGHTNESS 128
 #define OLED_TIMEOUT 30000
-#define OLED_UPDATE_INTERVAL 250
-#define OLED_FADE_OUT
+#define OLED_UPDATE_INTERVAL 200
 
 // Selectively define RGB modes to save some space
 // VIA support won't fit otherwise
 #ifdef RGBLIGHT_ENABLE
+// clang-format off
+#undef RGBLIGHT_LED_MAP
 #undef RGBLIGHT_ANIMATIONS
 // #define RGBLIGHT_EFFECT_BREATHING
 #define RGBLIGHT_EFFECT_RAINBOW_SWIRL
 #define RGBLIGHT_EFFECT_STATIC_GRADIENT
-#endif //RGB LIGHT_ENABLE
+// clang-format on
+#endif
+
+// Split configuration
+#define SPLIT_TRANSPORT_MIRROR
+#define SPLIT_WPM_ENABLE
+
+// Typehud configuration
+#define TYPEHUD_FILLGRAPH
+#define TYPEHUD_MATRIX_COLS 16

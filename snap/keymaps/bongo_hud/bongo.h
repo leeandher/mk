@@ -17,12 +17,14 @@
 #include "bongo_graphics.h"
 #include QMK_KEYBOARD_H
 
-#define _IDLE_FRAMES         5
+#define _IDLE_FRAMES         3
 #define _PREP_FRAMES         1
 #define _TAP_FRAMES          2
 #define _ANIM_BYTES          512   // Number of bytes in array (max is 1024)
-#define _IDLE_FRAME_DURATION 175
+#define _IDLE_FRAME_DURATION 255
 #define _TAP_FRAME_DURATION  75
+#define _IDLE_SPEED          1     // WPM to exit idle animation
+#define _TAP_SPEED           30    // WPM to enter tap antmation
 #define _PREP_TIMEOUT        750
 
 enum anim_states
@@ -96,26 +98,25 @@ static void animate(uint8_t x, uint8_t y) {
   }
 }
 
+
+
+
+
 void bongo_render(uint8_t x, uint8_t y) {
-  if (timer_elapsed32(anim_timer) > anim_duration) {
-    anim_timer = timer_read32();
-    animate(x, y);
-  }
-
-  if (anim_state == Prep && timer_elapsed32(prep_timer) > _PREP_TIMEOUT) {
-    anim_state = Idle;
-    anim_duration = _IDLE_FRAME_DURATION;
-  }
-}
-
-void bongo_process_record(keyrecord_t *record) {
-  if (record->event.pressed) {
-    anim_state = Tap;
-    anim_duration = _TAP_FRAME_DURATION;
-  } else {
-    if (anim_state == Tap) {
-      anim_state = Prep;
-      prep_timer = timer_read32();
+    if (timer_elapsed32(anim_timer) > anim_duration) {
+        anim_timer = timer_read32();
+        animate(x, y);
     }
-  }
+    if (get_current_wpm() <= _IDLE_SPEED) {
+        anim_state = Idle;
+        anim_duration = _IDLE_FRAME_DURATION;
+    }
+    if (get_current_wpm() > _IDLE_SPEED && get_current_wpm() < _TAP_SPEED) {
+        anim_state = Prep;
+        prep_timer = timer_read32();
+    }
+    if (get_current_wpm() >= _TAP_SPEED) {
+        anim_state = Tap;
+        anim_duration = _TAP_FRAME_DURATION;
+    }
 }

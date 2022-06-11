@@ -1,21 +1,6 @@
-/* Copyright 2022 Chris Tanaka <https://github.com/christanaka>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 #include QMK_KEYBOARD_H
 #include "typehud.h"
+#include "bongo.h"
 
 // clang-format off
 enum layers {
@@ -35,8 +20,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
              KC_F17,  KC_LCTL,  KC_LGUI, KC_LALT,     MO(_VIA1),         KC_SPC,   KC_SPC,                  MO(_VIA1), KC_RALT,   KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT
   ),
     [_VIA1] = LAYOUT_all(
-    KC_NO,          RESET,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,         KC_NO,
-    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO, KC_NO,
+    KC_NO,          KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,         KC_NO,
+    KC_NO,  RESET,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  RESET, KC_NO,
             KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,          KC_NO,    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,
             KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,          KC_NO,    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,          KC_NO,
             KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,          KC_NO,  KC_NO,
@@ -63,103 +48,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     oled_clear();
-
-#ifdef TYPEHUD_MASTER
-    if (is_keyboard_master()) {
-#else
-    if (!is_keyboard_master()) {
-#endif
+    if (is_keyboard_master()) 
         typehud_init();
-    }
-
+        
     if (is_keyboard_left())
         return OLED_ROTATION_0;
     else
         return OLED_ROTATION_180;
-}
 
-int get_free_ram(void) {
-    extern int __heap_start, *__brkval;
-    int        v;
-    int        diff = (int)&v - (__brkval == 0 ? (int)&__heap_start : (int)__brkval);
-    return diff;
-}
-
-static void render_status(void) {
-    oled_set_cursor(0, 0);
-    oled_write_P(PSTR("SNAP75 "), false);
-    oled_write_P(PSTR("Layer "), false);
-    switch (get_highest_layer(layer_state)) {
-        case _VIA1:
-            oled_write_P(PSTR("FN1 "), false);
-            break;
-        case _VIA2:
-            oled_write_P(PSTR("FN2 "), false);
-            break;
-        case _VIA3:
-            oled_write_P(PSTR("FN3 "), false);
-            break;
-        default: // use BASE case as default
-            oled_write_P(PSTR("Base"), false);
-    }
-
-    // Host Keyboard LED Status
-    oled_set_cursor(0, 1);
-    static uint8_t persistent_led_state = 0;
-    uint8_t        led_usb_state        = host_keyboard_leds();
-
-    // Only update if the LED state has changed
-    // Otherwise, the OLED will not turn off if an LED is on.
-    if (persistent_led_state != led_usb_state) {
-        persistent_led_state = led_usb_state;
-
-        oled_write_ln_P(PSTR(""), false);
-
-        if (IS_LED_ON(led_usb_state, USB_LED_CAPS_LOCK)) {
-            oled_set_cursor(0, 1);
-            oled_write_P(PSTR("CAPS"), false);
-        }
-
-        if (IS_LED_ON(led_usb_state, USB_LED_NUM_LOCK)) {
-            oled_set_cursor(5, 1);
-            oled_write_P(PSTR("NUM"), true);
-        }
-
-        if (IS_LED_ON(led_usb_state, USB_LED_SCROLL_LOCK)) {
-            oled_set_cursor(9, 1);
-            oled_write_P(PSTR("SCR"), false);
-        }
-    }
-
-    // WPM and free RAM
-    oled_set_cursor(0, 2);
-    oled_write_P(PSTR("WPM "), false);
-    uint8_t current_wpm = get_current_wpm();
-    oled_write(get_u8_str(current_wpm, '0'), true);
-
-    oled_set_cursor(8, 2);
-    oled_write_P(PSTR("RAM "), false);
-    uint16_t free_ram = (uint16_t)get_free_ram();
-    oled_write(get_u16_str(free_ram, '0'), true);
 }
 
 bool oled_task_user(void) {
-#ifdef TYPEHUD_MASTER
-    if (is_keyboard_master()) {
-#else
     if (!is_keyboard_master()) {
-#endif
         typehud_render();
     } else {
-        render_status();
+        bongo_render(0, 0);
     }
-
     return true;
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     typehud_process_record(record);
-
     return true;
 }
 
