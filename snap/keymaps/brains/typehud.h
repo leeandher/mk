@@ -386,15 +386,9 @@ void typehud_render(void) {
  */
 void typehud_process_record(keyrecord_t *record) {
     // For split keyboards, only draw on correct side
-#ifdef SPLIT_KEYBOARD
-#    ifdef TYPEHUD_MASTER
-    if (!is_keyboard_master()) {
-#    else
-    if (is_keyboard_master()) {
-#    endif
+    if (!is_keyboard_left()) {
         return;
     }
-#endif
     // Render/update matrix
     render_matrix(record);
 
