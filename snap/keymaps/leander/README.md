@@ -1,11 +1,11 @@
-# Typehud Keymap
+# Leander (V1) Keymap
 
-VIA compatible keymap that displays a live wpm HUD on your OLED.
+They keymap is my preference for dual encoder, dual OLED setups with a speaker on nullbits' Snap75.
 
-### Graph Type
+It loads a Bongo Cat animation on the leader board with Typing HUD on the follower board's OLEDs.
 
-By default the graph is filled. For a non-filled graph remove or comment out the following line:
-
-```c
-#define TYPEHUD_FILLGRAPH
-```
+The two OLED animations are from:
+- [TypeHud](https://github.com/nullbitsco/snap/tree/main/keymaps/typehud)
+- Bongo Cat
+  - [Snap Source](https://github.com/nullbitsco/snap/tree/main/keymaps/bongo_reactive)
+  - [Modified WPM Code](https://github.com/nwii/oledbongocat)
