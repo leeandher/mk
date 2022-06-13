@@ -27,6 +27,9 @@ SPACE_CADET_ENABLE = no    # Enables the use of Space Cadet
 GRAVE_ESC_ENABLE = no      # Enables the use of grave key as escape key
 RGBLIGHT_ENABLE = yes      # Enable keyboard RGB underglow
 CUSTOM_MATRIX = lite       # Split custom matrix
+# New options
+MAGIC_ENABLE = no          # USB Nkey Rollover, GUI and CTRL/ALT swapping
+MUSIC_ENABLE = no		   # Disable matrix position to music notes
 
 # Project specific files
 SRC +=  common/bitc_led.c \

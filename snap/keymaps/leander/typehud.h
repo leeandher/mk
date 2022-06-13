@@ -363,7 +363,6 @@ void typehud_init(void) {
  * Renders the typehud.
  */
 void typehud_render(void) {
-    uint8_t wpm = get_current_wpm();
 
     // Run initial rendering once
     if (!is_initialized) {
@@ -372,11 +371,11 @@ void typehud_render(void) {
     }
 
     // Render wpm
-    render_wpm(wpm);
+    render_wpm(get_current_wpm());
 
     // Render next graph and caret frame when timer reaches refresh rate
     if (timer_elapsed(timer) > _GRAPH_REFRESH) {
-        render_graph(wpm);
+        render_graph(get_current_wpm());
         render_caret();
         timer = timer_read();
     }

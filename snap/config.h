@@ -39,6 +39,10 @@
 #define NO_ACTION_ONESHOT
 #define IGNORE_MOD_TAP_INTERRUPT
 #define TAPPING_FORCE_HOLD
+// New space savers
+#undef LOCKING_SUPPORT_ENABLE
+#undef LOCKING_RESYNC_ENABLE
+#define NO_MUSIC_MODE
 
 /* split config */
 // #define SPLIT_USB_DETECT // Enable if you have issues with USB
@@ -76,7 +80,6 @@
 #define RGBLED_SPLIT { 5, 5 }
 #define RGBLIGHT_LED_MAP { 8, 9, 0, 1, 2, 6, 7, 3, 4, 5 }  
 #define RGBLIGHT_ANIMATIONS
-#define RGBLIGHT_SLEEP
 
 /* Optional encoder pins */
 #define ENCODERS_PAD_A { B3 }

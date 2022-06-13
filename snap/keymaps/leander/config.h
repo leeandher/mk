@@ -25,11 +25,11 @@
 // VIA support won't fit otherwise
 #ifdef RGBLIGHT_ENABLE
 // clang-format off
-#undef RGBLIGHT_LED_MAP
 #undef RGBLIGHT_ANIMATIONS
-// #define RGBLIGHT_EFFECT_BREATHING
+#define RGBLIGHT_EFFECT_RAINBOW_MOOD
 #define RGBLIGHT_EFFECT_RAINBOW_SWIRL
-#define RGBLIGHT_EFFECT_STATIC_GRADIENT
+#define RGBLIGHT_EFFECT_SNAKE
+#define RGBLIGHT_EFFECT_KNIGHT
 // clang-format on
 #endif
 
