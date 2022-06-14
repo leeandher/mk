@@ -18,7 +18,6 @@
 
 // Old configuration
 #define OLED_BRIGHTNESS 128
-#define OLED_TIMEOUT 30000
 #define OLED_UPDATE_INTERVAL 200
 
 // Selectively define RGB modes to save some space
@@ -39,4 +38,4 @@
 
 // Typehud configuration
 #define TYPEHUD_FILLGRAPH
-#define TYPEHUD_MATRIX_COLS 16
+#define TYPEHUD_MATRIX_COLS 17

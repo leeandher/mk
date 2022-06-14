@@ -100,7 +100,7 @@ static void render_wpm(uint8_t wpm) {
 /*
  * Renders the keyboard matrix.
  */
-static void render_matrix(keyrecord_t *record) {
+static voidkeyrecord_t *record) {
     uint8_t x      = _MATRIX_X;
     uint8_t y      = _MATRIX_Y;
     uint8_t width  = _MATRIX_WIDTH;
@@ -390,7 +390,7 @@ void typehud_process_record(keyrecord_t *record) {
         return;
     }
     // Render/update matrix
-    render_matrix(record);
+record);
 
     // Render/update input bar on keypress
     if (record->event.pressed) {
