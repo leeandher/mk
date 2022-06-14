@@ -54,7 +54,7 @@ bool encoder_update_kb(uint8_t index, bool clockwise) {
 
 void matrix_init_kb(void) {
     set_bitc_LED(LED_OFF);
-    matrix_init_remote_kb();
+    // matrix_init_remote_kb();
     matrix_init_user();
 }
 
@@ -67,7 +67,7 @@ void keyboard_post_init_kb(void) {
 }
 
 void matrix_scan_kb(void) {
-    matrix_scan_remote_kb();
+    // matrix_scan_remote_kb();
     matrix_scan_user();
 
     if (is_alt_tab_active) {
@@ -93,7 +93,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
     dprintf("kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time);
     #endif
 
-    process_record_remote_kb(keycode, record);
+    // process_record_remote_kb(keycode, record);
     if (!process_record_user(keycode, record)) return false;
 
     switch (keycode) {
