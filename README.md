@@ -1,3 +1,4 @@
 # mechanical keyboards
 
-- [Snap75 Source Code](https://github.com/nullbitsco/snap)
+- [Snap75](https://github.com/nullbitsco/snap)
+- Sun68
