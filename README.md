@@ -1,4 +1,3 @@
 # mechanical keyboards
 
-- [Snap75](https://github.com/nullbitsco/snap)
-- Sun68
+my mechs and some config stuff for em.
