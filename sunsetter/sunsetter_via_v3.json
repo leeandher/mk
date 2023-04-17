@@ -2,7 +2,7 @@
   "name": "Sunsetter R2",
   "vendorId": "0x4344",
   "productId": "0x5335",
-  "lighting": "qmk_rgblight",
+  "menus": ["qmk_rgblight"],
   "matrix": {
     "rows": 5,
     "cols": 17
